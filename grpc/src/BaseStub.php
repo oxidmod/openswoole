@@ -29,10 +29,11 @@ class BaseStub
         $method,
         $request,
         $deserialize,
-        array $metadata = []
+        array $metadata = [],
+        $timeout = -1
     ) {
         $streamId              = $this->client->send($method, $request);
-        [$data, $trailers]     = $this->client->recv($streamId);
+        [$data, $trailers]     = $this->client->recv($streamId, $timeout);
 
         if ($trailers['grpc-status'] !== '0') {
             throw new GRPCException($trailers['grpc-message']);
@@ -56,19 +57,20 @@ class BaseStub
         $method,
         $request,
         $deserialize,
-        array $metadata = []
+        array $metadata = [],
+        $timeout = -1
     ) {
         $this->deserialize = $deserialize;
         $streamId          = $this->client->send($method, $request);
-        [$data]            = $this->client->recv($streamId);
+        [$data]            = $this->client->recv($streamId, $timeout);
 
         $this->streamId    = $streamId;
         return $this->_deserializeResponse($deserialize, $data);
     }
 
-    protected function _getData()
+    protected function _getData($timeout = -1)
     {
-        [$data]     = $this->client->recv($this->streamId);
+        [$data]     = $this->client->recv($this->streamId, $timeout);
 
         return $this->_deserializeResponse($this->deserialize, $data);
     }
