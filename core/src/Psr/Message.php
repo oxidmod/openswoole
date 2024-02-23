@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\Core\Psr;
 
 use InvalidArgumentException;
@@ -141,5 +142,12 @@ class Message
         $message         = clone $this;
         $message->stream = $stream;
         return $message;
+    }
+
+    protected function setHeaders(array $headers): void
+    {
+        $this->headers = $this->withHeaders($headers)
+            ->getHeaders()
+        ;
     }
 }

@@ -6,11 +6,13 @@ declare(strict_types=1);
  * @link     https://openswoole.com
  * @contact  hello@openswoole.com
  */
+
 namespace OpenSwoole\GRPC\Middleware;
 
 use OpenSwoole\GRPC\Constant;
 use OpenSwoole\GRPC\Exception\GRPCException;
 use OpenSwoole\GRPC\Exception\InvokeException;
+use OpenSwoole\GRPC\Exception\NotFoundException;
 use OpenSwoole\GRPC\MessageInterface;
 use OpenSwoole\GRPC\RequestHandlerInterface;
 use OpenSwoole\GRPC\Response;
